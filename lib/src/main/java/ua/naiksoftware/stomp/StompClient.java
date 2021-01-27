@@ -121,7 +121,7 @@ public class StompClient {
                                     .subscribe(() -> {
                                         Log.d(TAG, "Publish open");
                                         lifecyclePublishSubject.onNext(lifecycleEvent);
-                                    });
+                                    }, onError -> Log.e(TAG, "Error send", onError));
                             break;
 
                         case CLOSED:
@@ -134,7 +134,7 @@ public class StompClient {
                             lifecyclePublishSubject.onNext(lifecycleEvent);
                             break;
                     }
-                });
+                }, onError -> Log.e(TAG, "Error connection", onError));
 
         messagesDisposable = connectionProvider.messages()
                 .map(StompMessage::from)
